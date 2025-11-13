@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /projects
+Disallow: /admin
+Disallow: /administrator
+Disallow: /administrator/add-content
+Disallow: /administrator/update-content
+Disallow: /administrator/delete-content
+
+Sitemap: https://akash-portfolio-1-82b2f.web.app/sitemap.xml

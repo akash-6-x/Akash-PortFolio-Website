@@ -1,0 +1,49 @@
+
+.cinzel-shit{
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  word-spacing:5px;
+}
+
+.pacifico-shit {
+  font-family: "Pacifico", cursive;
+  font-style: normal;
+}
+
+.lobster-shit {
+  font-family: "Lobster Two", sans-serif;
+  font-style: normal;
+}
+
+.tektur-shit {
+  font-family: "Tektur", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  word-spacing:5px;
+  font-weight:300px;
+}
+
+.bitcount-shit {
+  font-family: "Bitcount Grid Double", system-ui;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0,
+    "CRSV" 0.5,
+    "ELSH" 0,
+    "ELXP" 0;
+}
+
+.playwrite-shit {
+  font-family: "Playwrite HU", cursive;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+
+.quicksand-shit {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
