@@ -39,11 +39,12 @@ const LogInMainPageContent = () => {
         },[isDesktop, isLaptop, isMobile, isTab, isSmall, isVerySmall])
         
   return (
-    <section className={`w-screen h-screen flex justify-center items-center relative overflow-hidden`}>
+    <section className={`w-screen h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-red-500 via-pink-500 to-purple-500 ${IsVisible ? 'opacity-0' : 'opacity-100'} ease-in-out duration-500`}>
       <>
             {isPageDeviceReject ? <PageDeviceReject/> : <>
-              <img draggable="false" src='/Fields.jpg' className='w-full h-full object-cover'></img>
-              <LoginForm/></>
+                <img draggable="false" src='/Fields.jpg' className='w-full h-full object-cover'></img>
+                <LoginForm/>
+              </>
             }
       </>
       {isSpinner && <Spinner/>}
