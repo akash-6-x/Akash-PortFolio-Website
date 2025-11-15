@@ -2,7 +2,7 @@ import { ChevronLeft, Merge } from 'lucide-react'
 import { useContext, useRef, useState } from 'react'
 import { DarkModeContextAPI } from '../../../Context/DarkModeContext'
 import { MediaQueriesAPI } from '../../../Context/MediaQueries';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../../../../Backend/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
@@ -15,11 +15,12 @@ const UpdateContentPage = () => {
     let {DarkMode} = useContext(DarkModeContextAPI);
     let {isDesktop,isLaptop,isTab} = useContext(MediaQueriesAPI)
     let {authUser} = useContext(AuthContextAPI)
+    let {state} = useLocation();
 
     
 
     let initialFormData = {
-        projectID:"",
+        projectID:state,
         title:"",
         description:"",
         ProjectGithubLink:"",
@@ -128,17 +129,17 @@ const UpdateContentPage = () => {
     <>
         {isDesktop && 
             <>
-                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} onClick={(e)=>{e.preventDefault();navigate('/administrator')}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[40px] h-[40px] left-20 top-26 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`}><ChevronLeft className='scale-140'/></button>
+                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} onClick={(e)=>{e.preventDefault();navigate('/administrator/projects-list')}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[40px] h-[40px] left-20 top-26 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`}><ChevronLeft className='scale-140'/></button>
                 <section className={`w-[800px] h-[600px] border-2 rounded-[20px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                     <div className={`w-full h-[60px] quicksand-shit rounded-t-[18px] font-extrabold text-[26px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Update Projects Here...</div>
                     <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-60px)] px-6 pt-8 pb-10 flex flex-col gap-8  overflow-y-auto rounded-b-[18px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
                         <label htmlFor="projectID" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project ID :</label>
-                        <input required onChange={HandleInputChange} onDragStart={(e)=>{e.preventDefault();}} onDrop={(e)=>{e.preventDefault();}} onCut={(e)=>{e.preventDefault();}} onPaste={(e)=>{e.preventDefault();}} onCopy={(e)=>{e.preventDefault();}}  value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`quicksand-shit font-[500] shrink-0 border-2 w-[700px] h-[50px] ml-4 rounded-[10px] text-center text-[20px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
+                        <input tabIndex={-1} readOnly contentEditable="false" required onDragStart={(e)=>{e.preventDefault();}} onDrop={(e)=>{e.preventDefault();}} onCut={(e)=>{e.preventDefault();}} onPaste={(e)=>{e.preventDefault();}} onCopy={(e)=>{e.preventDefault();}} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`pointer-events-none quicksand-shit font-[500] shrink-0 border-2 w-[700px] h-[50px] ml-4 rounded-[10px] text-center text-[20px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="title" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Title :</label>
                         <input onChange={HandleInputChange} value={formData.title} name='title' type="text" id='title' placeholder='Enter the new Project name' className={`quicksand-shit font-[500] shrink-0 border-2 w-[700px] h-[50px] ml-4 rounded-[10px] text-center text-[20px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="description" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Description :</label>
                         <textarea onChange={HandleInputChange} value={formData.description} name='description' id='description' placeholder='Enter the details about the project here ' className={`quicksand-shit font-[500] shrink-0 border-2 w-[700px] h-[200px] ml-4 rounded-[10px] p-4 text-[20px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`}/>
-                        <label htmlFor="ProjectGithubLink" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Github Link :</label>
+                        <lable htmlFor="ProjectGithubLink" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Github Link :</lable>
                         <input onChange={HandleInputChange} value={formData.ProjectGithubLink} name='ProjectGithubLink' type="text" id='ProjectGithubLink' placeholder='Enter the projects Github Link' className={`quicksand-shit font-[500] shrink-0 border-2 w-[700px] h-[50px] ml-4 text-center text-[20px] rounded-[10px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="ProjectUploadDate" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Upload Date :</label>
                         <input onChange={HandleInputChange} value={formData.ProjectUploadDate} name='ProjectUploadDate' type="date" id='ProjectUploadDate' placeholder='Enter the project upload date' className={`quicksand-shit font-[500] shrink-0 border-2 w-[700px] h-[50px] ml-4 p-4 text-[20px] rounded-[10px] duration-400 ease-in-out ${DarkMode ? 'border-white text-white bg-slate-700':'border-black text-black'}`} />
@@ -157,7 +158,7 @@ const UpdateContentPage = () => {
                     <div className={`w-full h-[60px] quicksand-shit rounded-t-[18px] font-extrabold text-[20px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Update Projects Here...</div>
                     <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-60px)] px-8 pt-6 pb-8 flex flex-col gap-6 overflow-y-auto rounded-b-[14px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
                         <label htmlFor="projectID" className={`select-none quicksand-shit text-[18px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project ID :</label>
-                        <input required onChange={HandleInputChange} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`quicksand-shit font-[500] shrink-0 border-2 w-[500px] h-[40px] ml-4 rounded-[8px] text-center text-[18px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
+                        <input tabIndex={-1} readOnly contentEditable="false" required onChange={HandleInputChange} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`pointer-events-none quicksand-shit font-[500] shrink-0 border-2 w-[500px] h-[40px] ml-4 rounded-[8px] text-center text-[18px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="title" className={`select-none quicksand-shit text-[18px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Title :</label>
                         <input onChange={HandleInputChange} value={formData.title} name='title' type="text" id='title' placeholder='Enter the new Project name' className={`quicksand-shit font-[500] shrink-0 border-2 w-[500px] h-[40px] ml-4 rounded-[8px] text-center text-[18px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="description" className={`select-none quicksand-shit text-[18px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Description :</label>
@@ -180,8 +181,8 @@ const UpdateContentPage = () => {
                 <section className={`w-[450px] h-[370px] border-2 rounded-[10px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                     <div className={`w-full h-[40px] quicksand-shit rounded-t-[10px] font-extrabold text-[16px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Update Projects Here...</div>
                     <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-40px)] px-8 pt-4 pb-4 border flex flex-col gap-4 overflow-y-auto rounded-b-[6px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
-                        <label required htmlFor="projectID" className={`select-none quicksand-shit text-[14px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project ID :</label>
-                        <input onChange={HandleInputChange} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`quicksand-shit font-[500] shrink-0 border-2 w-[350px] h-[30px] ml-4 rounded-[5px] text-center text-[14px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
+                        <label htmlFor="projectID" className={`select-none quicksand-shit text-[14px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project ID :</label>
+                        <input tabIndex={-1} readOnly contentEditable="false" required onChange={HandleInputChange} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`pointer-events-none quicksand-shit font-[500] shrink-0 border-2 w-[350px] h-[30px] ml-4 rounded-[5px] text-center text-[14px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="title" className={`select-none quicksand-shit text-[14px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Title :</label>
                         <input onChange={HandleInputChange} value={formData.title} name='title' type="text" id='title' placeholder='Enter the new Project name' className={`quicksand-shit font-[500] shrink-0 border-2 w-[350px] h-[30px] ml-4 rounded-[5px] text-center text-[14px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="description" className={`select-none quicksand-shit text-[14px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Description :</label>

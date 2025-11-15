@@ -11,7 +11,8 @@ import PublicRoutes from "./PublicRoutes";
 import AdminInitialContent from "../Pages/Admin/adminMainContent/AdminInitialContent";
 import AddContentPage from "../Pages/Admin/adminMainContent/AddContentPage";
 import UpdateContentPage from "../Pages/Admin/adminMainContent/UpdateContentPage";
-import DeleteContentPage from "../Pages/Admin/adminMainContent/DeleteContentPage";
+import ProjectsList from "../Pages/Admin/adminMainContent/ProjectsList";
+import ContentChangePage from "../Pages/Admin/adminMainContent/ContentChangePage";
 
 let MyRoutes = createBrowserRouter([
     {
@@ -55,12 +56,16 @@ let MyRoutes = createBrowserRouter([
                 element:<AddContentPage/>
             },
             {
+                path:'projects-list',
+                element:<ProjectsList/>
+            },
+            {
                 path:'update-content',
                 element:<UpdateContentPage/>
             },
             {
-                path:'delete-content',
-                element:<DeleteContentPage/>
+                path:'content-change-confirmation',
+                element:<ContentChangePage/>
             }
         ]
     },

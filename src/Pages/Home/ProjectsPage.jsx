@@ -28,6 +28,7 @@ const ProjectsPage = () => {
             const Projects_Data = Documents.docs.map((doc)=>({
               projectID : doc.id, ...doc.data()
             }))
+            
             setProjects(Projects_Data)
             // console.log("Projects:",Projects_Data);
             toast.error("Projects Data Fetched Successfully...")
@@ -89,17 +90,17 @@ const ProjectsPage = () => {
                                                     <pre className={`whitespace-pre-wrap ${isDesktop && 'px-10 max-h-50'} ${isLaptop && 'px-6 max-h-44'} ${isTab && 'px-6 max-h-36'} ${isMobile && 'px-2 max-h-30'} ${isSmall && 'px-2 max-h-24'} leading-relaxed overflow-y-auto scrollbar-custom`}>
                                                         {proj.description}
                                                     </pre>
-                                                    </div>
+                                                </div>
 
-                                                    <div className={`flex items-center ${(isMobile || isSmall) ? 'gap-4':'gap-6'}`}>
-                                                        <div onCopy={(e)=>{e.preventDefault()}} onCut={(e)=>{e.preventDefault()}} className={`bg-blue-400 ${isDesktop && 'w-[150px] h-[40px] text-[20px]'} ${isLaptop && 'w-[150px] h-[40px] text-[16px]'} ${isTab && 'w-[150px] h-[40px] text-[12px]'} ${isMobile && 'w-[80px] h-[32px] text-[10px]'} ${isSmall && 'w-[80px] h-[32px] text-[9px]'} border-2 select-none rounded-md flex justify-center items-center ease-in-out duration-400 transition-color ${DarkMode?"text-white":"text-black"} quicksand-shit font-semibold`}>
-                                                            GitHub Link :
-                                                        </div>
-                                                        <div className={`${isDesktop && 'w-[700px] h-[40px] text-[18px]'} ${isLaptop && 'w-[700px] h-[40px] text-[16px]'} ${isTab && 'w-[700px] h-[40px] text-[12px]'} ${isMobile && 'grow h-[32px] text-[10px]'} ${isSmall && 'grow h-[32px] text-[8px]'} border-2 rounded-md flex justify-center items-center ease-in-out duration-400 transition-color ${DarkMode?"text-white":"text-black"} quicksand-shit font-semibold overflow-x-auto px-4 ${proj.ProjectGithubLink?.toLowerCase().includes('private') ? 'bg-red-500':'bg-green-500'}`}>
-                                                            {proj.ProjectGithubLink}
-                                                        </div>
+                                                <div className={`flex items-center ${(isMobile || isSmall) ? 'gap-4':'gap-6'}`}>
+                                                    <div onCopy={(e)=>{e.preventDefault()}} onCut={(e)=>{e.preventDefault()}} className={`bg-blue-400 ${isDesktop && 'w-[150px] h-[40px] text-[20px]'} ${isLaptop && 'w-[150px] h-[40px] text-[16px]'} ${isTab && 'w-[150px] h-[40px] text-[12px]'} ${isMobile && 'w-[80px] h-[32px] text-[10px]'} ${isSmall && 'w-[80px] h-[32px] text-[9px]'} border-2 select-none rounded-md flex justify-center items-center ease-in-out duration-400 transition-color ${DarkMode?"text-white":"text-black"} quicksand-shit font-semibold`}>
+                                                        GitHub Link :
+                                                    </div>
+                                                    <div className={`${isDesktop && 'w-[700px] h-[40px] text-[18px]'} ${isLaptop && 'w-[700px] h-[40px] text-[16px]'} ${isTab && 'w-[700px] h-[40px] text-[12px]'} ${isMobile && 'grow h-[32px] text-[10px]'} ${isSmall && 'grow h-[32px] text-[8px]'} border-2 rounded-md flex justify-center items-center ease-in-out duration-400 transition-color ${DarkMode?"text-white":"text-black"} quicksand-shit font-semibold overflow-x-auto px-4 ${proj.ProjectGithubLink?.toLowerCase().includes('private') ? 'bg-red-500':'bg-green-500'}`}>
+                                                        {proj.ProjectGithubLink}
                                                     </div>
                                                 </div>
+                                            </div>
 
                                         ))}
                                         
