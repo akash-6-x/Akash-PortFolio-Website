@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { db } from '../../../../Backend/firebase'
 import { collection, getDocs } from 'firebase/firestore'
 import { toast } from 'sonner'
+import Spinner2 from '../../../utilities/Spinner2'
 
 const ProjectsList = () => {
 
@@ -52,8 +53,8 @@ const ProjectsList = () => {
                 
                 {isFetching?
                 <>
-                    <section className={`w-full h-full flex justify-center items-center quicksand-shit font-extrabold text-[18px] ${DarkMode?'text-white':'text-black'}`}>
-                        Fetching...
+                    <section className={`w-full h-full flex justify-center items-center`}>
+                        <Spinner2/>
                     </section>
                 </>:
                 <>
@@ -108,7 +109,11 @@ const ProjectsList = () => {
                             </div>
                         ))}
                     </>:
-                    <></>}
+                    <>
+                        <section className={`w-full h-full flex justify-center items-center quicksand-shit font-extrabold text-[18px] ${DarkMode?'text-white':'text-black'}`}>
+                            Nothing Here...
+                        </section>
+                    </>}
                 </>}
 
             </section>
