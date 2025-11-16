@@ -53,7 +53,7 @@ const AdminMainPageContent = () => {
                     <header className={`${IsVisible?'invisible':'visible'} w-full h-[70px] border-b-2 flex ${DarkMode?'border-white':'border-black'} duration-400 ease-in-out`}>
                         <AdminNavBar/>
                     </header>
-                    <main className={`${IsVisible?'invisible':'visible'}relative w-full h-[calc(100vh-70px)] flex flex-col justify-center items-center gap-6`}>
+                    <main className={`${IsVisible?'invisible':'visible'} relative w-full h-[calc(100vh-70px)] flex flex-col justify-center items-center gap-6`}>
                         <Outlet/>
                     </main>
                 </>

@@ -91,6 +91,7 @@ const AddContentPage = () => {
                 
                 
                 
+                
             } 
             catch (error)
             {
@@ -141,7 +142,7 @@ const AddContentPage = () => {
     <>
         {isDesktop && 
         <>
-            <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[40px] h-[40px] left-20 top-26 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft className='scale-140'/></button>
+            <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[40px] h-[40px] left-20 top-10 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft className='scale-140'/></button>
             <section className={`w-[800px] h-[600px] border-2 rounded-[20px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                 <div className={`w-full h-[60px] quicksand-shit rounded-t-[18px] font-extrabold text-[26px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Add Projects Here...</div>
                 <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-60px)] px-6 pt-8 pb-10 flex flex-col gap-8 overflow-y-auto rounded-b-[18px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
@@ -170,7 +171,7 @@ const AddContentPage = () => {
 
         {isLaptop && 
         <>
-            <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[30px] h-[30px] left-20 top-26 rounded-[6px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft className='scale-110'/></button>
+            <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[30px] h-[30px] left-20 top-10 rounded-[6px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft className='scale-110'/></button>
             <section className={`w-[600px] h-[400px] border-2 rounded-[20px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                 <div className={`w-full h-[60px] quicksand-shit rounded-t-[18px] font-extrabold text-[20px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Add Projects Here...</div>
                 <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-60px)] px-8 pt-6 pb-8 flex flex-col gap-6 overflow-y-auto rounded-b-[14px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
@@ -199,7 +200,7 @@ const AddContentPage = () => {
 
         {isTab && 
         <>
-            <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[24px] h-[24px] left-8 top-24 rounded-[4px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-104 will-change-transform`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft/></button>
+            <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[24px] h-[24px] left-8 top-10 rounded-[4px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-104 will-change-transform`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft/></button>
             <section className={`w-[450px] h-[370px] border-2 rounded-[10px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                 <div className={`w-full h-[40px] quicksand-shit rounded-t-[10px] font-extrabold text-[16px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Add Projects Here...</div>
                 <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-40px)] px-8 pt-4 pb-0 border flex flex-col gap-4 overflow-y-auto rounded-b-[6px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>

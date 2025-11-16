@@ -16,6 +16,9 @@ const UpdateContentPage = () => {
     let {isDesktop,isLaptop,isTab} = useContext(MediaQueriesAPI)
     let {authUser} = useContext(AuthContextAPI)
     let {state} = useLocation();
+    let [confirmation,setConfirmation] = useState("");
+    let [UpdateButtonFocused,setUpdateIconFocused] = useState(false);
+    let [Update_Button_Clicked_For_Confirmation,set_Update_Button_Clicked_For_Confirmation] = useState(false)
 
     
 
@@ -64,19 +67,45 @@ const UpdateContentPage = () => {
 
     }
 
+    let Message_Confirmation = (e)=>{
+        e.preventDefault();
+        if(!authUser) return;
+        set_Update_Button_Clicked_For_Confirmation(true)
+
+    }
+
 
     let HandleSubmit = async (e)=>{
         e.preventDefault();
         if(isSubmitting) return;
         if(SubmitRef.current) return;
         if(!authUser) return;
+        setIsSubmitting(true);
+        SubmitRef.current = true;
+        
+        // if(!Update_Button_Clicked_For_Confirmation)
+        // {
+        //     return;
+        // }
+        
+        if (confirmation !=null && confirmation !== "Update-Content")
+        {
+                toast.error("Confirmation Text does not match ... Try again ... 😐");
+                setIsSubmitting(false);
+                SubmitRef.current = false;
+                setUpdateIconFocused(false)
+                setConfirmation("");
+                return;
+        }
         if(formData.projectID.length != 20 || formData.projectID.includes(' ')) 
         {
             toast.error("Invalid ProjectID...try again...😐");
+            setIsSubmitting(false);
+            SubmitRef.current = false;
+            setUpdateIconFocused(false);
+            setConfirmation("");
             return
         }
-        setIsSubmitting(true);
-        SubmitRef.current = true;
         // console.log("Form Data: ",formData);
         // console.log("Submitted");
         try {
@@ -104,6 +133,8 @@ const UpdateContentPage = () => {
                 await updateDoc(docRef,Filtered_Data)
                 setformData(initialFormData)
                 toast.success("Project Updated with new Data...😀🎉")
+                navigate('/administrator/projects-list')
+
             }
             else
                 {
@@ -113,6 +144,8 @@ const UpdateContentPage = () => {
             setSaveButtonFocused(false)
             setIsSubmitting(false);
             SubmitRef.current = false;
+            setUpdateIconFocused(false)
+            setConfirmation("")
 
         } catch (error) {
             toast.error("Error:",error)
@@ -120,6 +153,8 @@ const UpdateContentPage = () => {
             setIsSubmitting(false);
             SubmitRef.current = false;
             setSaveButtonFocused(false)
+            setUpdateIconFocused(false)
+            setConfirmation("")
         }
         
         
@@ -127,12 +162,46 @@ const UpdateContentPage = () => {
 
   return (
     <>
+        {Update_Button_Clicked_For_Confirmation && <>
+            <section className={`absolute w-full h-full shrink-0 z-10 flex justify-center items-center ease-in-out duration-600 transition-colors ${DarkMode ? 'bg-slate-950' : 'bg-white'} overflow-hidden`}>
+                {(isDesktop || isLaptop) && 
+                <>
+                    <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} onClick={(e)=>{e.preventDefault();set_Update_Button_Clicked_For_Confirmation(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[40px] h-[40px] left-20 top-26 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`}><ChevronLeft className='scale-140'/></button>
+                    <section className={`select-none w-[800px] h-[300px] duration-400 rounded-md border-2 ${DarkMode ? 'border-white':'border-black'}`}>
+                        <div className={`w-full h-[18%] duration-400 border-b-2 rounded-t-md flex justify-center items-center text-[24px] font-extrabold quicksand-shit ${DarkMode ? 'text-white':'text-black'}`}>Update Project</div>
+                        <form onSubmit={HandleSubmit} className={`${DarkMode ? 'text-white':'text-black'} w-full h-[calc(100%-18%)] flex flex-col gap-6 rounded-b-md px-6 pt-6`}>
+                            <label htmlFor="confiramtion" className={`text-[22px] duration-400 font-extrabold quicksand-shit`}>Type &nbsp;' Update-Content '&nbsp; to Update</label>
+                            <input onChange={(e)=>{setConfirmation(e.target.value);}} id="confirmation" value={confirmation} name="confirmation" type="text" className={` duration-400 ${DarkMode ? 'border-white text-white':'border-black text-black' } ml-4 border-2 w-[94.5%] h-[20%] rounded-md text-center text-[20px] font-medium quicksand-shit`} onDragStart={(e)=>{e.preventDefault();}} onDrop={(e)=>{e.preventDefault();}} onCut={(e)=>{e.preventDefault();}} onPaste={(e)=>{e.preventDefault();}} onCopy={(e)=>{e.preventDefault();}} />
+                            <div className={`w-full h-[80px] flex justify-end items-center px-6`}>
+                                <button disabled={ isSubmitting || SubmitRef.current } onFocus={()=>{setUpdateIconFocused(true)}} onBlur={()=>{setUpdateIconFocused(false)}} type="submit" className={`${UpdateButtonFocused && 'shadow-[0_0_10px_6px_blue]'} ${DarkMode ? 'border-white text-white':'border-black text-black' } w-[160px] h-[50px] border-2 rounded-md ${(isSubmitting || SubmitRef.current) ? 'bg-blue-300':'bg-blue-400 hover:bg-blue-500'} text-[20px] flex justify-center items-center quicksand-shit font-semibold cursor-pointer hover:scale-106 ease-in-out duration-400 will-change-transform`}>Update Project</button>
+                            </div>
+                        </form>
+                    </section>
+                </>}
+
+                {isTab && 
+                <>
+                    <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} onClick={(e)=>{e.preventDefault();set_Update_Button_Clicked_For_Confirmation(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[30px] h-[30px] left-8 top-24 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`}><ChevronLeft className='scale-140'/></button>
+                    <section className={`select-none w-[500px] h-[250px] duration-400 rounded-md border-2 ${DarkMode ? 'border-white':'border-black'}`}>
+                        <div className={`w-full h-[16%] duration-400 border-b-2 rounded-t-md flex justify-center items-center text-[20px] font-extrabold quicksand-shit ${DarkMode ? 'text-white':'text-black'}`}>Update Project</div>
+                        <form onSubmit={HandleSubmit} className={`${DarkMode ? 'text-white':'text-black'} w-full h-[calc(100%-18%)] flex flex-col gap-6 rounded-b-md px-6 pt-6`}>
+                            <label htmlFor="confiramtion" className={`text-[18px] duration-400 font-extrabold quicksand-shit`}>Type &nbsp;' Update-Content '&nbsp; to Update</label>
+                            <input onChange={(e)=>{setConfirmation(e.target.value);}} id="confirmation" value={confirmation} name="confirmation" type="text" className={` duration-400 ${DarkMode ? 'border-white text-white':'border-black text-black' } ml-4 border-2 w-[94.5%] h-[20%] rounded-md text-center text-[17px] quicksand-shit`} onDragStart={(e)=>{e.preventDefault();}} onDrop={(e)=>{e.preventDefault();}} onCut={(e)=>{e.preventDefault();}} onPaste={(e)=>{e.preventDefault();}} onCopy={(e)=>{e.preventDefault();}} />
+                            <div className={`w-full h-[80px] flex justify-end items-center px-6`}>
+                                <button disabled={ isSubmitting || SubmitRef.current } onFocus={()=>{setUpdateIconFocused(true)}} onBlur={()=>{setUpdateIconFocused(false)}} type="submit" className={`${UpdateButtonFocused && 'shadow-[0_0_10px_6px_blue]'} ${DarkMode ? 'border-white text-white':'border-black text-black' } w-[150px] h-[40px] border-2 rounded-md ${(isSubmitting || SubmitRef.current) ? 'bg-blue-300':'bg-blue-500'} text-[18px] flex justify-center items-center quicksand-shit font-semibold cursor-pointer hover:scale-106 ease-in-out duration-400 will-change-transform`}>Update Project</button>
+                            </div>
+                        </form>
+                    </section>
+                </>}
+            </section>
+        </>}
+        
         {isDesktop && 
             <>
-                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} onClick={(e)=>{e.preventDefault();navigate('/administrator/projects-list')}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[40px] h-[40px] left-20 top-26 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`}><ChevronLeft className='scale-140'/></button>
+                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} onClick={(e)=>{e.preventDefault();navigate("/administrator/projects-list")}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[40px] h-[40px] left-20 top-10 rounded-[10px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-1 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`}><ChevronLeft className='scale-140'/></button>
                 <section className={`w-[800px] h-[600px] border-2 rounded-[20px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                     <div className={`w-full h-[60px] quicksand-shit rounded-t-[18px] font-extrabold text-[26px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Update Projects Here...</div>
-                    <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-60px)] px-6 pt-8 pb-10 flex flex-col gap-8  overflow-y-auto rounded-b-[18px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
+                    <form onSubmit={Message_Confirmation} className={`w-full h-[calc(100%-60px)] px-6 pt-8 pb-10 flex flex-col gap-8  overflow-y-auto rounded-b-[18px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
                         <label htmlFor="projectID" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project ID :</label>
                         <input tabIndex={-1} readOnly contentEditable="false" required onDragStart={(e)=>{e.preventDefault();}} onDrop={(e)=>{e.preventDefault();}} onCut={(e)=>{e.preventDefault();}} onPaste={(e)=>{e.preventDefault();}} onCopy={(e)=>{e.preventDefault();}} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`pointer-events-none quicksand-shit font-[500] shrink-0 border-2 w-[700px] h-[50px] ml-4 rounded-[10px] text-center text-[20px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="title" className={`select-none quicksand-shit text-[22px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Title :</label>
@@ -153,10 +222,10 @@ const UpdateContentPage = () => {
 
             {isLaptop && 
             <>
-                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[30px] h-[30px] left-20 top-26 rounded-[6px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft className='scale-110'/></button>
+                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[30px] h-[30px] left-20 top-10 rounded-[6px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-105`} onClick={(e)=>{e.preventDefault();navigate("/administrator/projects-list")}}><ChevronLeft className='scale-110'/></button>
                 <section className={`w-[600px] h-[400px] border-2 rounded-[20px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                     <div className={`w-full h-[60px] quicksand-shit rounded-t-[18px] font-extrabold text-[20px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Update Projects Here...</div>
-                    <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-60px)] px-8 pt-6 pb-8 flex flex-col gap-6 overflow-y-auto rounded-b-[14px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
+                    <form onSubmit={Message_Confirmation} className={`w-full h-[calc(100%-60px)] px-8 pt-6 pb-8 flex flex-col gap-6 overflow-y-auto rounded-b-[14px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
                         <label htmlFor="projectID" className={`select-none quicksand-shit text-[18px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project ID :</label>
                         <input tabIndex={-1} readOnly contentEditable="false" required onChange={HandleInputChange} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`pointer-events-none quicksand-shit font-[500] shrink-0 border-2 w-[500px] h-[40px] ml-4 rounded-[8px] text-center text-[18px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="title" className={`select-none quicksand-shit text-[18px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Title :</label>
@@ -177,10 +246,10 @@ const UpdateContentPage = () => {
 
             {isTab && 
             <>
-                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[24px] h-[24px] left-8 top-24 rounded-[4px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-104 will-change-transform`} onClick={(e)=>{e.preventDefault();navigate('/administrator')}}><ChevronLeft/></button>
+                <button onFocus={()=>{setBackButtonFocused(true)}} onBlur={()=>{setBackButtonFocused(false)}} title='Go Back' type='button' className={`${BackButtonFocused && 'shadow-[0_0_10px_6px_blue]'} absolute w-[24px] h-[24px] left-8 top-10 rounded-[4px] border-2 ${DarkMode ? 'border-white text-white':'border-black text-black' } flex justify-center items-center pr-0.5 hover:bg-blue-400 ease-in-out duration-400 cursor-pointer hover:scale-104 will-change-transform`} onClick={(e)=>{e.preventDefault();navigate('/administrator/projects-list')}}><ChevronLeft/></button>
                 <section className={`w-[450px] h-[370px] border-2 rounded-[10px] overflow-hidden ${DarkMode ? 'border-white':'border-black'}`}>
                     <div className={`w-full h-[40px] quicksand-shit rounded-t-[10px] font-extrabold text-[16px] flex justify-center items-center select-none border-b-2 border-black ${DarkMode ? 'text-white border-white':'text-black border-black'}`}>Update Projects Here...</div>
-                    <form onSubmit={HandleSubmit} className={`w-full h-[calc(100%-40px)] px-8 pt-4 pb-4 border flex flex-col gap-4 overflow-y-auto rounded-b-[6px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
+                    <form onSubmit={Message_Confirmation} className={`w-full h-[calc(100%-40px)] px-8 pt-4 pb-4 border flex flex-col gap-4 overflow-y-auto rounded-b-[6px] scrollbar-custom ${DarkMode ? 'border-white':'border-black'}`}>
                         <label htmlFor="projectID" className={`select-none quicksand-shit text-[14px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project ID :</label>
                         <input tabIndex={-1} readOnly contentEditable="false" required onChange={HandleInputChange} value={formData.projectID} name='projectID' type="text" id='projectID' placeholder='Enter the Project ID :' className={`pointer-events-none quicksand-shit font-[500] shrink-0 border-2 w-[350px] h-[30px] ml-4 rounded-[5px] text-center text-[14px] ${DarkMode ? 'border-white text-white':'border-black text-black'}`} />
                         <label htmlFor="title" className={`select-none quicksand-shit text-[14px] font-bold ${DarkMode ? 'text-white':'text-black'}`}>Project Title :</label>
