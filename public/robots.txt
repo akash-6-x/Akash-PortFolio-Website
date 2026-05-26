@@ -3,8 +3,9 @@ Allow: /
 Allow: /projects
 Disallow: /admin
 Disallow: /administrator
+Disallow: /administrator/projects-list
 Disallow: /administrator/add-content
 Disallow: /administrator/update-content
-Disallow: /administrator/delete-content
+Disallow: /administrator/content-change-confirmation
 
 Sitemap: https://akash-portfolio-1-82b2f.web.app/sitemap.xml
